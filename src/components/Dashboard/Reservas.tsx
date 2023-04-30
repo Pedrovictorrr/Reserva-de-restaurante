@@ -11,6 +11,7 @@ import ReactPaginate from 'react-paginate';
 import SkelectonReservas from './SkelectonReservas';
 import ShowModal from './ModalShow';
 import EditModal from './EditModal';
+import DatePicker from "react-datepicker";
 
 
 
@@ -29,9 +30,6 @@ interface Reservation {
   created_at: string;
   updated_at: string;
 }
-
-
-
 function Reservas() {
 
 
@@ -64,7 +62,7 @@ function Reservas() {
 
   function DeleteDatabyId(id: number) {
     if (window.confirm('Tem certeza que deseja excluir esse usuário?')) {
-      axios.delete(`http://127.0.0.1:8000/api/reserva/delete/${id}`, {
+      axios.delete(`http://18.230.194.84/api/reserva/delete/${id}`, {
         headers: {
           Authorization: `Bearer ${cookies.token}`
         }
@@ -91,7 +89,7 @@ function Reservas() {
   async function fetchLaravelData() {
     setIsSkelecton(false)
     setIstable(true)
-    const response = await axios.get('http://127.0.0.1:8000/api/reserva/getAll', {
+    const response = await axios.get('http://18.230.194.84/api/reserva/getAll', {
       headers: {
         Authorization: `Bearer ${cookies.token}`
       }
@@ -128,14 +126,14 @@ function Reservas() {
     <>
       <div className="p-4 mt-96">
 
-        <div className="flex items-center shadow justify-center h-48 mb-4 rounded-xl bg-gray-50 dark:bg-gray-800">
+        <div className="flex items-center shadow justify-center h-48 mb-4 rounded-xl bg-gray-50 xxxbg-gray-800">
           <div className="relative overflow-x-auto w-full bg-gray-50    sm:rounded-lg">
             <h1 className='text-center mt-3    mb-4 text-2xl'>Reservas</h1>
             <div hidden={Skelecton}>
               <SkelectonReservas />
             </div>
-            <table hidden={table} className="w-full text-sm rounded-xl text-left text-gray-500 dark:text-gray-400">
-              <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+            <table hidden={table} className="w-full text-sm rounded-xl text-left text-gray-500 xxxtext-gray-400">
+              <thead className="text-xs text-gray-700 uppercase bg-gray-50 xxxbg-gray-700 xxxtext-gray-400">
                 <tr>
                   <th scope="col" className="px-6 py-3">
                     Name
@@ -162,8 +160,8 @@ function Reservas() {
               </thead>
               <tbody>
                 {currentItems.map((data) => (
-                  <tr className="bg-white border-b dark:bg-gray-900 dark:border-gray-700">
-                    <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                  <tr className="bg-white border-b xxxbg-gray-900 xxxborder-gray-700">
+                    <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap xxxtext-white">
                       {data.Name}
                     </th>
                     <td className="px-6 py-4">
@@ -202,14 +200,14 @@ function Reservas() {
                       <button
                         type="button"
                         onClick={() => findDataById(data.id)}
-                        className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
+                        className="text-white transition ease-in-out delay-150  hover:-translate-y-1 hover:scale-110 h duration-300 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 xxxbg-blue-600 xxxhover:bg-blue-700 focus:outline-none xxxfocus:ring-blue-800"
                       >
                         <FontAwesomeIcon className="text-white" icon={faEye} />
                       </button>
                       <button
                         onClick={() => DeleteDatabyId(data.id)}
-                        type="button" className="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900"><FontAwesomeIcon className='text-white' icon={faTrash} /></button>
-                      <button onClick={() => findEditDataById(data.id)} type="button" className="focus:outline-none text-white bg-yellow-400 hover:bg-yellow-500 focus:ring-4 focus:ring-yellow-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:focus:ring-yellow-900"><FontAwesomeIcon className='text-white' icon={faPenToSquare} /></button>
+                        type="button" className="transition ease-in-out delay-150  hover:-translate-y-1 hover:scale-110 h duration-300 focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 xxxbg-red-600 xxxhover:bg-red-700 xxxfocus:ring-red-900"><FontAwesomeIcon className='text-white' icon={faTrash} /></button>
+                      <button onClick={() => findEditDataById(data.id)} type="button" className="transition ease-in-out delay-150  hover:-translate-y-1 hover:scale-110 h duration-300 focus:outline-none text-white bg-yellow-400 hover:bg-yellow-500 focus:ring-4 focus:ring-yellow-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 xxxfocus:ring-yellow-900"><FontAwesomeIcon className='text-white' icon={faPenToSquare} /></button>
                     </td>
 
                   </tr>

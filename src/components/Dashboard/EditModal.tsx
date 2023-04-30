@@ -3,6 +3,7 @@
 import React from "react";
 import axios from 'axios';
 import { useCookies } from "react-cookie";
+import ErroModal from './ModalErro';
 
 type EditarFormData = {
     QTDPessoas: number,
@@ -20,6 +21,9 @@ type EditarFormData = {
 function EditModal(props) {
     const [cookies] = useCookies(['token']);
     const [diaSelecionado, setDiaSelecionado] = React.useState([]);
+    const [MensagemErro, setMensagemErro] = React.useState('');
+    const [ErrorModal, setErrorModal] = React.useState(false);
+    const [selectedDate, setSelectedDate] = React.useState('');
     const [formData, setFormData] = React.useState({
         QTDPessoas: '0',
         Data: '',
@@ -31,9 +35,26 @@ function EditModal(props) {
         Observacao: '',
         Status: '1',
     });
+    function handleErrorCloseModal(){
+        setErrorModal(false)
+      }
+
+      function handleDateChange(event) {
+        const selectedDate = new Date(event.target.value);
+        const dayOfWeek = selectedDate.getDay();
+    
+        if (dayOfWeek === 6) {
+          setMensagemErro('Por favor, selecione uma data entre segunda e sabado.');
+          setErrorModal(true)
+         
+        } else {
+          setSelectedDate(event.target.value);
+        }
+      }
     async function fetchReservas(event) {
         try {
-            const response = await fetch('http://127.0.0.1:8000/api/showReservasHrs', {
+            handleDateChange(event);
+            const response = await fetch('http://18.230.194.84/api/showReservasHrs', {
                 method: 'POST',
                 headers: {
                     Authorization: `Bearer ${cookies.token}`,
@@ -46,6 +67,7 @@ function EditModal(props) {
             const data = await response.json();
             setDiaSelecionado(data); // aqui você pode lidar com a resposta da API
         } catch (error) {
+            
             console.error(error);
         }
     }
@@ -61,7 +83,7 @@ function EditModal(props) {
     };
     const handleSubmit = (event, id) => {
         event.preventDefault();
-        axios.post(`http://127.0.0.1:8000/api/reserva/update/${props.user.id}`, formData, {
+        axios.post(`http://18.230.194.84/api/reserva/update/${props.user.id}`, formData, {
             headers: {
                 Authorization: `Bearer ${cookies.token}`
             }
@@ -114,13 +136,13 @@ function EditModal(props) {
 
                                         <div className="grid gap-6 mb-6 md:grid-cols-2">
                                             <div>
-                                                <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Quantidade de pessoas</label>
+                                                <label className="block mb-2 text-sm font-medium text-gray-900 text-white">Quantidade de pessoas</label>
                                                 <select
                                                     id="QTDPessoas"
                                                     value={formData.QTDPessoas}
                                                     onChange={(event) => handleChange(event, "QTDPessoas")}
                                                     name='QTDPessoas'
-                                                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                                                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 bg-gray-700 border-gray-600 placeholder-gray-400 text-white focus:ring-blue-500 focus:border-blue-500">
                                                     <option selected value={props.user.QTD_Pessoas}>{props.user.QTD_Pessoas}</option>
                                                     <option value="1">1</option>
                                                     <option value="2">2</option>
@@ -128,7 +150,7 @@ function EditModal(props) {
                                                     <option value="4">4</option>
                                                 </select></div>
                                             <div>
-                                                <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Data</label>
+                                                <label className="block mb-2 text-sm font-medium text-gray-900 text-white">Data</label>
 
                                                 <input
                                                     id="Data"
@@ -138,33 +160,33 @@ function EditModal(props) {
                                                     onChangeCapture={fetchReservas}
                                                     onChange={(event) => handleChange(event, "Data")}
                                                     placeholder={props.user.Data}
-                                                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
+                                                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 bg-gray-700 border-gray-600 placeholder-gray-400 text-white focus:ring-blue-500 focus:border-blue-500" required>
                                                 </input></div>
                                             <div>
-                                                <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nome</label>
+                                                <label className="block mb-2 text-sm font-medium text-gray-900 text-white">Nome</label>
                                                 <input
                                                     value={formData.Nome}
                                                     onChange={(event) => handleChange(event, "Nome")}
                                                     type="text"
                                                     id="Nome"
                                                     name='Nome'
-                                                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder={props.user.Nome} required />
+                                                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 bg-gray-700 border-gray-600 placeholder-gray-400 text-white focus:ring-blue-500 focus:border-blue-500" placeholder={props.user.Nome} required />
                                             </div>
                                             <div>
-                                                <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Sobrenome</label>
+                                                <label className="block mb-2 text-sm font-medium text-gray-900 text-white">Sobrenome</label>
                                                 <input
                                                     value={formData.Sobrenome}
                                                     onChange={(event) => handleChange(event, "Sobrenome")}
                                                     type="text"
                                                     id="Sobrenome"
                                                     name='Sobrenome'
-                                                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder={props.user.Sobrenome} required />
+                                                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 bg-gray-700 border-gray-600 placeholder-gray-400 text-white focus:ring-blue-500 focus:border-blue-500" placeholder={props.user.Sobrenome} required />
                                             </div>
 
                                         </div>
                                         <div className="grid gap-6 mb-6 md:grid-cols-2">
                                             <div>
-                                                <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Email</label>
+                                                <label className="block mb-2 text-sm font-medium text-gray-900 text-white">Email</label>
                                                 <input
                                                     value={formData.Email}
                                                     onChange={(event) => handleChange(event, "Email")}
@@ -172,12 +194,12 @@ function EditModal(props) {
                                                     id="telefone"
                                                     name='Telefone'
                                                     placeholder={props.user.Email}
-                                                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required />
+                                                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 bg-gray-700 border-gray-600 placeholder-gray-400 text-white focus:ring-blue-500 focus:border-blue-500" required />
                                             </div>
                                             <div>
-                                                <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Status</label>
+                                                <label className="block mb-2 text-sm font-medium text-gray-900 text-white">Status</label>
                                                 <select value={formData.Status}
-                                                    onChange={(event) => handleChange(event, "Status")} id="Status" name='Status' className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
+                                                    onChange={(event) => handleChange(event, "Status")} id="Status" name='Status' className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 bg-gray-700 border-gray-600 placeholder-gray-400 text-white focus:ring-blue-500 focus:border-blue-500" required>
 
                                                     <option value="1" className="inline-flex items-center rounded-md bg-green-50 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/20">
                                                         Check-in
@@ -194,7 +216,7 @@ function EditModal(props) {
                                         </div>
                                         <div className="grid gap-6 mb-6 md:grid-cols-2">
                                             <div>
-                                                <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Telefone</label>
+                                                <label className="block mb-2 text-sm font-medium text-gray-900 text-white">Telefone</label>
                                                 <input
                                                     value={formData.Telefone}
                                                     onChange={(event) => handleChange(event, "Telefone")}
@@ -202,12 +224,12 @@ function EditModal(props) {
                                                     id="telefone"
                                                     name='Telefone'
                                                     placeholder={props.user.Telefone}
-                                                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required />
+                                                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 bg-gray-700 border-gray-600 placeholder-gray-400 text-white focus:ring-blue-500 focus:border-blue-500" required />
                                             </div>
                                             <div>
-                                                <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Hora</label>
+                                                <label className="block mb-2 text-sm font-medium text-gray-900 text-white">Hora</label>
                                                 <select value={formData.Hora}
-                                                    onChange={(event) => handleChange(event, "Hora")} id="Hora" name='Hora' className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
+                                                    onChange={(event) => handleChange(event, "Hora")} id="Hora" name='Hora' className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 bg-gray-700 border-gray-600 placeholder-gray-400 text-white focus:ring-blue-500 focus:border-blue-500" required>
 
                                                     {Object.keys(diaSelecionado).map((hora) => (
                                                         <>
@@ -221,12 +243,12 @@ function EditModal(props) {
                                                 </select></div>
                                         </div>
                                         <div>
-                                            <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Observação</label>
+                                            <label className="block mb-2 text-sm font-medium text-gray-900 text-white">Observação</label>
                                             <textarea value={formData.Observacao}
-                                                onChange={(event) => handleChange(event, "Observacao")} id="message" name='Observacao' rows="4" className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder={props.user?.Observacao} required></textarea>
+                                                onChange={(event) => handleChange(event, "Observacao")} id="message" name='Observacao' rows="4" className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 bg-gray-700 border-gray-600 placeholder-gray-400 text-white focus:ring-blue-500 focus:border-blue-500" placeholder={props.user?.Observacao} required></textarea>
                                         </div>
                                         <div className='mt-5'>
-                                            <button type="submit" className="text-white  bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-full px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Enviar</button>
+                                            <button type="submit" className="text-white  bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-full px-5 py-2.5 text-center bg-blue-600 hover:bg-blue-700 focus:ring-blue-800">Enviar</button>
                                         </div>
                                     </form>
                                 </div>
@@ -245,6 +267,7 @@ function EditModal(props) {
                         </div>
                     </div>
                     <div className="opacity-25 fixed inset-0 z-40 bg-black"></div>
+                    <ErroModal show={ErrorModal}  mensagem={MensagemErro} handleCloseModal={handleErrorCloseModal}/>
                 </>
             ) : null}
         </div>
