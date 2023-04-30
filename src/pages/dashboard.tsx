@@ -28,8 +28,8 @@ export default function Dashboard() {
           console.log(error);
           router.push('/');
           // redirecionar para a página de login ou página inicial
-        });
-  }, [cookies.token]);
+        },);
+  }, [cookies.token, router]);
 
   const handleLogout = () => {
     axios.post('http://18.230.194.84/api/logout', {}, {
