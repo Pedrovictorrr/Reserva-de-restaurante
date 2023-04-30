@@ -56,7 +56,7 @@ function Reservas() {
 
   useEffect(() => {
     fetchLaravelData()
-  },[ [cookies.token, router]]);
+  },[ [cookies.token, router,fetchLaravelData]]);
 
   
 

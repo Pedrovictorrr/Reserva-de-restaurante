@@ -42,7 +42,7 @@ function First_page() {
   const [startDate, setStartDate] = React.useState(new Date());
   useEffect(() => {
     fetchLaravelData()
-  }, [fetchLaravelData]);
+  }, [cookies.token,fetchLaravelData]);
 
   async function fetchLaravelData() {
 
