@@ -14,3 +14,37 @@ html{
   background-repeat: no-repeat;
   background-size: cover;
 }
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  margin-top: 1rem;
+}
+
+.pagination li {
+  margin: 0 0.5rem;
+}
+
+.pagination li a {
+  padding: 0.5rem;
+  border-radius: 0.25rem;
+  color: #333;
+  background-color: #fff;
+  border: 1px solid #ddd;
+}
+
+.pagination li a:hover {
+  background-color: #f7f7f7;
+}
+
+.pagination li.active a {
+  background-color: #333;
+  color: #fff;
+  border: 1px solid #333;
+}
+
+.pagination li.disabled a {
+  color: #999;
+  background-color: #fff;
+  border: 1px solid #ddd;
+}
