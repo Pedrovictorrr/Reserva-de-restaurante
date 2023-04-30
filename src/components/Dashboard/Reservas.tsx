@@ -54,11 +54,7 @@ function Reservas() {
   const currentItems = laravelData.slice(startIndex, endIndex);
 
 
-  useEffect(() => {
-    fetchLaravelData()
-  },[ [cookies.token, router,fetchLaravelData]]);
 
-  
 
   function DeleteDatabyId(id: number) {
     if (window.confirm('Tem certeza que deseja excluir esse usuário?')) {
@@ -107,7 +103,11 @@ function Reservas() {
     fetchLaravelData()
     setEditShowModal(false);
   };
+  useEffect(() => {
+    fetchLaravelData()
+  },[ [cookies.token, router,fetchLaravelData]]);
 
+  
 
   function findDataById(id: number) {
     const item = laravelData.find((item) => item.id == id);
