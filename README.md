@@ -3,15 +3,22 @@ Eu desenvolvi o projeto de reserva de restaurante que utiliza diferentes tecnolo
 
 ## Getting Started
 
-First, run the development server:
+Passo a passo:
+
+Clonar o repositorio do React Nextjs para sua maquina:
+```bash
+git clone https://github.com/Pedrovictorrr/Digiliza-Client.git
+```
+Entrar na pasta raiz do projeto:
+```bash
+cd /Digiliza-Client
+```
+
+Installar dependencia e iniciar o ambiente de dev:
 
 ```bash
 npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
 ```
 
 ![image](https://user-images.githubusercontent.com/82172897/235407938-9e209c4e-32fe-42aa-bcd9-9f40203f230d.png)
