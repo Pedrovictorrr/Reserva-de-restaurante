@@ -40,7 +40,7 @@ function Reservas() {
   const [showModal, setShowModal] = React.useState(false);
   const [showEditModal, setEditShowModal] = React.useState(false);
   const [selectedItemFromLaravelData, setSelectedItemFromLaravelData] = React.useState<Reservation | undefined>();
-  const itemsPerPage = 9;
+  const itemsPerPage = 8;
   const startIndex = currentPage * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
   const currentItems = laravelData.slice(startIndex, endIndex);
