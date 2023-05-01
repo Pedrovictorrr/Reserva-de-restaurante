@@ -1,7 +1,11 @@
 'use client'
 import React from "react";
-
-function ErroModal(props) {
+type Props = {
+  mensagem: string;
+  show: boolean;
+  handleCloseModal: () => void;
+}
+function ErroModal(props: Props) {
 
     const mensagem = props.mensagem;
     const show = props.show;

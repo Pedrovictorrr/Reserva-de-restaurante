@@ -1,11 +1,16 @@
 'use client'
 import { faTruckFieldUn } from "@fortawesome/free-solid-svg-icons";
 import React from "react";
-
-function SuccessModal(props) {
+type Props = {
+    mensagem: string;
+    show: boolean;
+    handleCloseModal: () => void;
+  }
+function SuccessModal(props: Props) {
 
     const mensagem = props.mensagem;
-    const show = faTruckFieldUn;
+    const show = props.show;
+
     return(
         <div>
         {show ? (

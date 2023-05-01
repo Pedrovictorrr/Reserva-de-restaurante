@@ -1,5 +1,5 @@
 'use client'
-import { useEffect } from 'react';
+import { useCallback, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import React from "react";
 import { useCookies } from "react-cookie";
@@ -8,7 +8,14 @@ import "react-datepicker/dist/react-datepicker.css";
 import SkelectonPrimeiraPagina from './SkelectonPrimeiraPagina';
 import ReactDatePicker from 'react-datepicker';
 import ErroModal from './ModalErro';
+import { ChangeEvent } from 'react';
 
+interface DiaSelecionado {
+  [key: string]: {
+    total_reservas: number;
+    status: string;
+  };
+}
 type CadastrarFormData = {
   QTDPessoas: number,
   Data: string,
@@ -22,30 +29,23 @@ type CadastrarFormData = {
 
 
 function First_page() {
-  const router = useRouter();
-  useEffect(() => {
-    if (!cookies.token) {
-      router.push('/');
-    }
-  }, []);
 
-  const [diaSelecionado, setDiaSelecionado] = React.useState([]);
+
+  const [diaSelecionado, setDiaSelecionado] = React.useState<DiaSelecionado>({});
   const [selectedDate, setSelectedDate] = React.useState('');
   const [MensagemErro, setMensagemErro] = React.useState('');
   const [ErrorModal, setErrorModal] = React.useState(false);
   const [cookies] = useCookies(['token']);
   const [laravelData, setLaravelData] = React.useState([]);
-  const [LoadingStore, setIsLoadingStore] = React.useState(true);
+  const [LoadingStore, setIsLoadingStore] = React.useState(false);
   const [FormStore, setIsFormStore] = React.useState(false);
   const [Skelecton, setIsSkelecton] = React.useState(false);
   const [table, setIstable] = React.useState(true);
   const [startDate, setStartDate] = React.useState(new Date());
-  useEffect(() => {
-    fetchLaravelData()
-  }, [cookies.token,fetchLaravelData]);
 
-  async function fetchLaravelData() {
 
+
+  const fetchLaravelData = useCallback(async () => {
     const response = await axios.get('http://18.230.194.84/api/getLastReservas', {
       headers: {
         Authorization: `Bearer ${cookies.token}`
@@ -54,25 +54,25 @@ function First_page() {
     setLaravelData(response.data);
     setIsSkelecton(true)
     setIstable(false)
-  }
+  }, [cookies.token]);
 
-  function handleErrorCloseModal(){
+  function handleErrorCloseModal() {
     setErrorModal(false)
   }
 
-  function handleDateChange(event) {
+  function handleDateChange(event: React.ChangeEvent<HTMLInputElement>) {
     const selectedDate = new Date(event.target.value);
     const dayOfWeek = selectedDate.getDay();
 
     if (dayOfWeek === 6) {
       setMensagemErro('Por favor, selecione uma data entre segunda e sabado.');
       setErrorModal(true)
-     
+
     } else {
       setSelectedDate(event.target.value);
     }
   }
-  async function fetchReservas(event) {
+  async function fetchReservas(event: React.ChangeEvent<HTMLInputElement>) {
     try {
       handleDateChange(event);
       const response = await fetch('http://18.230.194.84/api/showReservasHrs', {
@@ -96,32 +96,17 @@ function First_page() {
   }
 
 
-  const [formData, setFormData] = React.useState({
-    QTDPessoas: '1',
-    Data: '',
-    Nome: '',
-    Sobrenome: '',
-    Email: '',
-    Telefone: '',
-    Hora: '',
-    Observacao: '',
-  });
 
-  const handleChange = (
-    event: React.ChangeEvent<HTMLInputElement>,
-    field: keyof CadastrarFormData
-  ) => {
-    setFormData((prevFormData) => ({
-      ...prevFormData,
-      [field]: event.target.value,
-    }));
-    fetchReservas;
-  };
+  const handleChange = (event: ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>, field: string) => {
+    const value = field === "Observacao" ? Number(event.target.value) : event.target.value;
+    setFormData({ ...formData, [field]: value });
+  }
 
-  const handleSubmit = (event) => {
+
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setIsFormStore(true)
-    setIsLoadingStore(false)
+    setIsLoadingStore(true)
 
     axios.post('http://18.230.194.84/api/reserva/store', formData, {
       headers: {
@@ -132,9 +117,9 @@ function First_page() {
         console.log(response.data);
         fetchLaravelData();
         setIsFormStore(false)
-        setIsLoadingStore(true)
+        setIsLoadingStore(false)
         setFormData({
-          QTDPessoas: '1',
+          QTDPessoas: 0,
           Data: '',
           Nome: '',
           Sobrenome: '',
@@ -151,7 +136,7 @@ function First_page() {
         setIsFormStore(false)
         setIsLoadingStore(true)
         setFormData({
-          QTDPessoas: '1',
+          QTDPessoas: 0,
           Data: '',
           Nome: '',
           Sobrenome: '',
@@ -162,17 +147,37 @@ function First_page() {
         });
       });
   };
+  const [formData, setFormData] = React.useState<CadastrarFormData>({
+    QTDPessoas: 0,
+    Data: '',
+    Nome: '',
+    Sobrenome: '',
+    Email: '',
+    Telefone: '',
+    Hora: '',
+    Observacao: '',
+  });
+  const router = useRouter();
+  useEffect(() => {
 
+    if (!cookies.token) {
+      router.push('/');
+    } fetchLaravelData()
+  }, [cookies.token, router, fetchLaravelData]);
 
   return (
     <>
       <div className="p-3 lg:mt-24 sm:p-10 gap-6 lg:flex lg:flex-row columns-1">
         <div className=" p-5 shadow basis-0 lg:basis-1/2 justify-center h-auto mb-4 rounded-xl bg-gray-50 xxxbg-gray-800">
           <h1 className='text-center  mb-4 text-2xl'>Cadastro de reserva</h1>
-          <div hidden={LoadingStore} role="status" className="flex items-center justify-center">
-            <svg hidden={LoadingStore} aria-hidden="true" className="w-36 h-36 mr-2 my-24 text-gray-200 animate-spin xxxtext-gray-600 fill-blue-600" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z" fill="currentColor" /><path d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z" fill="currentFill" /></svg>
-            <span className="sr-only">Loading...</span>
-          </div>
+          {LoadingStore && (
+            <>
+              <div role="status" className="flex items-center justify-center">
+                <svg aria-hidden="true" className="w-36 h-36 mr-2 my-24 text-gray-200 animate-spin xxxtext-gray-600 fill-blue-600" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z" fill="currentColor" /><path d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z" fill="currentFill" /></svg>
+                <span className="sr-only">Loading...</span>
+              </div>
+            </>
+          )}
           <form hidden={FormStore} onSubmit={handleSubmit}>
             <div className="grid gap-6 mb-6 md:grid-cols-2">
               <div>
@@ -247,8 +252,8 @@ function First_page() {
                 <label className="block mb-2 text-sm font-medium text-gray-900 xxxtext-white">Hora</label>
                 <select value={formData.Hora}
                   onChange={(event) => handleChange(event, "Hora")} id="Hora" name='Hora' className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 xxxbg-gray-700 xxxborder-gray-600 xxxplaceholder-gray-400 xxxtext-white xxxfocus:ring-blue-500 xxxfocus:border-blue-500" required>
-               
-                  {Object.keys(diaSelecionado).map((hora) => (
+
+                  {Object.keys(diaSelecionado).map((hora: keyof typeof diaSelecionado, index: number) => (
                     <>
                       {diaSelecionado[hora].total_reservas >= 15 ? (
                         <option value={hora} disabled>{hora} - Total de reservas: {diaSelecionado[hora].total_reservas} - {diaSelecionado[hora].status}</option>
@@ -257,12 +262,13 @@ function First_page() {
                       )}
                     </>
                   ))}
+
                 </select> <p className='text-xs text-gray-500 p-1'>Obs: Horário para reserva só aparece após selecionar a data.</p></div>
             </div>
             <div>
               <label className="block mb-2 text-sm font-medium text-gray-900 xxxtext-white">Observação</label>
-              <textarea value={formData.Observacao}
-                onChange={(event) => handleChange(event, "Observacao")} id="message" name='Observacao' rows="4" className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 xxxbg-gray-700 xxxborder-gray-600 xxxplaceholder-gray-400 xxxtext-white xxxfocus:ring-blue-500 xxxfocus:border-blue-500" placeholder="Quero mais uma cadeira..." required></textarea>
+              <input value={formData.Observacao}
+                onChange={(event) => handleChange(event, "Observacao")} id="message" name='Observacao' className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 xxxbg-gray-700 xxxborder-gray-600 xxxplaceholder-gray-400 xxxtext-white xxxfocus:ring-blue-500 xxxfocus:border-blue-500" placeholder="Quero mais uma cadeira..." required></input>
             </div>
             <div className='mt-5'>
               <button type='submit' className="transition ease-in-out delay-150  hover:-translate-y-1 hover:scale-110 h duration-300 relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-purple-500 to-pink-500 group-hover:from-purple-500 group-hover:to-pink-500 hover:text-white xxxtext-white focus:ring-4 focus:outline-none focus:ring-purple-200 xxxfocus:ring-purple-800">
@@ -305,8 +311,8 @@ function First_page() {
 
               <tbody >
 
-                {laravelData.map((data) => (
-                  <tr className="bg-white border-b xxxbg-gray-900 xxxborder-gray-700">
+                {laravelData.map((data: { id: number, Name: string, Telefone: string, Data: string, Hora: string, Status: number }) => (
+                  <tr key={data.id} className="bg-white border-b xxxbg-gray-900 xxxborder-gray-700">
                     <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap xxxtext-white">
                       {data.Name}
                     </th>
@@ -342,10 +348,10 @@ function First_page() {
 
               </tbody>
             </table>
-            <ErroModal show={ErrorModal}  mensagem={MensagemErro} handleCloseModal={handleErrorCloseModal}/>
+            <ErroModal show={ErrorModal} mensagem={MensagemErro} handleCloseModal={handleErrorCloseModal} />
           </div>
         </div>
-      </div>
+      </div >
     </>
   );
 }

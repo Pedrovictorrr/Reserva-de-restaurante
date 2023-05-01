@@ -7,8 +7,8 @@ import Dashboard from "./pages/dashboard";
 const Routes = () => {
    return(
        <BrowserRouter>
-           <Route page = { Login }  path="/" exact />
-           <Route page = { Dashboard }  path="/dashboard" />
+           {/* <Route page = { Login }  path="/" exact />
+           <Route page = { Dashboard }  path="/dashboard" /> */}
        </BrowserRouter>
    )
 }

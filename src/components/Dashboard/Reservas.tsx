@@ -1,5 +1,5 @@
 'use client'
-import { useEffect } from 'react';
+import { useCallback, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import React from "react";
 import { useCookies } from "react-cookie";
@@ -18,6 +18,7 @@ import DatePicker from "react-datepicker";
 interface Reservation {
   id: number;
   Name: string;
+  Sobrenome:string;
   Email: string;
   Observacao: string;
   Data: string;
@@ -25,36 +26,24 @@ interface Reservation {
   QTD_Pessoas: number;
   User_id: number;
   Mesa_id: number;
-  Status: string;
+  Status: number;
   Telefone: string;
   created_at: string;
   updated_at: string;
 }
 function Reservas() {
-
-
-  const router = useRouter();
-  useEffect(() => {
-    if (!cookies.token) {
-      router.push('/');
-    }
-  });
-
   const [currentPage, setCurrentPage] = React.useState(0);
   const [cookies] = useCookies(['token']);
-  const [laravelData, setLaravelData] = React.useState([]);
+  const [laravelData, setLaravelData] = React.useState<Reservation[]>([]);
   const [Skelecton, setIsSkelecton] = React.useState(false);
   const [table, setIstable] = React.useState(true);
   const [showModal, setShowModal] = React.useState(false);
   const [showEditModal, setEditShowModal] = React.useState(false);
-  const [selectedItemFromLaravelData, setSelectedItemFromLaravelData] = React.useState<Reservation | null>(null);
+  const [selectedItemFromLaravelData, setSelectedItemFromLaravelData] = React.useState<Reservation | undefined>();
   const itemsPerPage = 9;
   const startIndex = currentPage * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
   const currentItems = laravelData.slice(startIndex, endIndex);
-
-
-
 
   function DeleteDatabyId(id: number) {
     if (window.confirm('Tem certeza que deseja excluir esse usuário?')) {
@@ -76,16 +65,13 @@ function Reservas() {
   }
 
 
-
-  const handlePageChange = ({ selected }) => {
+  const handlePageChange = ({ selected }: { selected: number }) => {
     setCurrentPage(selected);
   };
 
 
-  async function fetchLaravelData() {
-    setIsSkelecton(false)
-    setIstable(true)
-    const response = await axios.get('http://18.230.194.84/api/reserva/getAll', {
+  const fetchLaravelData = useCallback(async () => {
+    const response = await axios.get('http://18.230.194.84/api/getLastReservas', {
       headers: {
         Authorization: `Bearer ${cookies.token}`
       }
@@ -93,7 +79,8 @@ function Reservas() {
     setLaravelData(response.data);
     setIsSkelecton(true)
     setIstable(false)
-  }
+  }, [cookies.token]);
+
 
   const handleCloseModal = () => {
     fetchLaravelData()
@@ -103,24 +90,33 @@ function Reservas() {
     fetchLaravelData()
     setEditShowModal(false);
   };
-  useEffect(() => {
-    fetchLaravelData()
-  },[ [cookies.token, router,fetchLaravelData]]);
 
-  
+
 
   function findDataById(id: number) {
-    const item = laravelData.find((item) => item.id == id);
-    setSelectedItemFromLaravelData(item);
-    setShowModal(true);
+    const item = laravelData.find((item) => item.id === id);
+    if (item) {
+      setSelectedItemFromLaravelData(item);
+
+      setShowModal(true);
+    }
   }
+  
   function findEditDataById(id: number) {
-    const item = laravelData.find((item) => item.id == id);
-    setSelectedItemFromLaravelData(item);
-    setEditShowModal(true);
+    const item = laravelData.find((item) => item.id === id);
+    if (item) {
+      setSelectedItemFromLaravelData(item);
+
+      setEditShowModal(true);
+    }
   }
 
-
+  const router = useRouter();
+  useEffect(() => {
+    if (!cookies.token) {
+      router.push('/');
+    } fetchLaravelData()
+  }, [cookies.token, router, fetchLaravelData]);
 
   return (
     <>
@@ -160,7 +156,7 @@ function Reservas() {
               </thead>
               <tbody>
                 {currentItems.map((data) => (
-                  <tr className="bg-white border-b xxxbg-gray-900 xxxborder-gray-700">
+                  <tr key={data.id} className="bg-white border-b xxxbg-gray-900 xxxborder-gray-700">
                     <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap xxxtext-white">
                       {data.Name}
                     </th>
@@ -223,15 +219,15 @@ function Reservas() {
                 pageRangeDisplayed={5}
                 onPageChange={handlePageChange}
                 containerClassName={'pagination'}
-                subContainerClassName={'pages pagination'}
+            
                 activeClassName={'active'}
               />
             </div>
           </div>
 
         </div>
-            <ShowModal show={showModal} user={selectedItemFromLaravelData} handleCloseModal={handleCloseModal} />            
-            <EditModal showEdit={showEditModal} user={selectedItemFromLaravelData} handleCloseModal={handleCloseEditModal}  refresh={fetchLaravelData} />
+        <ShowModal show={showModal} user={selectedItemFromLaravelData} handleCloseModal={handleCloseModal} />
+        <EditModal show={showEditModal} user={selectedItemFromLaravelData} handleCloseModal={handleCloseEditModal} />
       </div >
     </>
   );

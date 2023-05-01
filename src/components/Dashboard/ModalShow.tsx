@@ -1,10 +1,29 @@
 'use client'
 import React from "react";
+interface Props {
+  show: boolean;
+  user?: {
+    id: number;
+    Name: string;
+    Sobrenome:string;
+    Email: string;
+    Observacao: string;
+    Data: string;
+    Hora: string;
+    QTD_Pessoas: number;
+    User_id: number;
+    Mesa_id: number;
+    Status: number;
+    Telefone: string;
+    created_at: string;
+    updated_at: string;
+  };
+  handleCloseModal: () => void;
+}
 
-function ShowModal(props) {
+function ShowModal(props: Props) {
 
-    const user = props.user;
-    const show = props.show;
+  const { user, show } = props;
     return(
         <div>
         {show ? (
@@ -18,7 +37,7 @@ function ShowModal(props) {
                     {/*header*/}
                     <div className="flex items-center text-center justify-center p-5 border-b border-solid border-slate-200 rounded-t">
                       <h3 className="text-3xl text-center  font-semibold">
-                        {user.Name}
+                        {user?.Name}
                       </h3>
                       <button
                         className="p-1 ml-auto bg-transparent border-0 text-black opacity-5 float-right text-3xl leading-none font-semibold outline-none focus:outline-none"
@@ -32,25 +51,25 @@ function ShowModal(props) {
                     {/*body*/}
                     <div className="relative p-6 flex-auto">
                       <p className="my-4 text-slate-500 text-lg leading-relaxed">
-                        <strong>  Telefone:</strong> {user.Telefone}
+                        <strong>  Telefone:</strong> {user?.Telefone}
                       </p>
                       <p className="my-4 text-slate-500 text-lg leading-relaxed">
-                        <strong> Email</strong> {user.Email}
+                        <strong> Email</strong> {user?.Email}
                       </p>
                       <p className="my-4 text-slate-500 text-lg leading-relaxed">
-                        <strong>  Observação:</strong> {user.Observacao}
+                        <strong>  Observação:</strong> {user?.Observacao}
                       </p>
                       <p className="my-4 text-slate-500 text-lg leading-relaxed">
-                        <strong>  Data: </strong> {new Date(user.Data).toLocaleDateString('pt-BR')}
+                        <strong>  Data: </strong> {user?.Data}
                       </p>
                       <p className="my-4 text-slate-500 text-lg leading-relaxed">
-                        <strong>  Horario:</strong> {user.Hora}
+                        <strong>  Horario:</strong> {user?.Hora}
                       </p>
                       <p className="my-4 text-slate-500 text-lg leading-relaxed">
-                        <strong>  Status</strong> {user.Status}
+                        <strong>  Status</strong> {user?.Status}
                       </p>
                       <p className="my-4 text-slate-500 text-lg leading-relaxed">
-                        <strong>  Data do Registro</strong> {new Date(user.created_at).toLocaleDateString('pt-BR')}
+                        <strong>  Data do Registro</strong> {user?.created_at}
                       </p>
                     </div>
                     {/*footer*/}

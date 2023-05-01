@@ -8,7 +8,10 @@ import First_page from '../components/Dashboard/Primeira_pagina';
 import Reservas from '@/components/Dashboard/Reservas';
 import Users from '@/components/Dashboard/Users';
 import axios from 'axios';
-import { Transition } from '@headlessui/react';
+
+import { destroyCookie } from 'nookies';
+
+
 
 
 export default function Dashboard() {
@@ -29,7 +32,7 @@ export default function Dashboard() {
           router.push('/');
           // redirecionar para a página de login ou página inicial
         },);
-  }, [cookies.token, router]);
+  }, [cookies.token]);
 
   const handleLogout = () => {
     axios.post('http://18.230.194.84/api/logout', {}, {
@@ -39,7 +42,7 @@ export default function Dashboard() {
     })
       .then(response => {
         console.log(response.data);
-        removeCookie('token');
+        destroyCookie(null, 'token');
         router.push('/');
         // redirecionar para a página de login ou página inicial
       })
