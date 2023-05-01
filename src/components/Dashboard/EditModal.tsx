@@ -11,7 +11,7 @@ interface Props {
     show: boolean;
     user?: {
       id: number;
-      Name: string;
+      Nome: string;
       Sobrenome:string;
       Email: string;
       Observacao: string;
@@ -45,7 +45,7 @@ function EditModal(props: Props) {
     const [selectedDate, setSelectedDate] = React.useState('');
     const [formData, setFormData] = React.useState({
         id: '0',
-        Name: '',
+        Nome: '',
         Sobrenome:'',
         Email: '',
         Observacao: '',
@@ -104,24 +104,24 @@ function EditModal(props: Props) {
     };
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>, id?: number) => {
         event.preventDefault();
-        axios.post(`http://18.230.194.84/api/reserva/update/${props.user?.id}`, formData, {
+        axios.post(`http://127.0.0.1:8000/api/reserva/update/${props.user?.id}`, formData, {
             headers: {
                 Authorization: `Bearer ${cookies.token}`
             }
         })
             .then(response => {
                 setFormData({
-                    id: '0',
-                    Name: '',
+                    id: '',
+                    Nome: '',
                     Sobrenome:'',
                     Email: '',
                     Observacao: '',
                     Data: '',
                     Hora: '',
-                    QTD_Pessoas: '0',
-                    User_id: '0',
-                    Mesa_id: '0',
-                    Status: '0',
+                    QTD_Pessoas: '',
+                    User_id: '',
+                    Mesa_id: '',
+                    Status: '',
                     Telefone: '',
                     created_at: '',
                     updated_at: '',
@@ -145,7 +145,7 @@ function EditModal(props: Props) {
                                 {/*header*/}
                                 <div className="flex items-center text-center justify-center p-5 border-b border-solid border-slate-200 rounded-t">
                                     <h3 className="text-3xl text-center  font-semibold">
-                                        {props.user?.Name}
+                                        {props.user?.Nome}
                                     </h3>
                                     <button
                                         className="p-1 ml-auto bg-transparent border-0 text-black opacity-5 float-right text-3xl leading-none font-semibold outline-none focus:outline-none"
@@ -191,12 +191,12 @@ function EditModal(props: Props) {
                                             <div>
                                                 <label className="block mb-2 text-sm font-medium text-gray-900 -text-white">Nome</label>
                                                 <input
-                                                    value={formData.Name}
+                                                    value={formData.Nome}
                                                     onChange={(event) => handleChange(event, "Nome")}
                                                     type="text"
                                                     id="Nome"
                                                     name='Nome'
-                                                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 -bg-gray-700 -border-gray-600 -placeholder-gray-400 -text-white -focus:ring-blue-500 -focus:border-blue-500" placeholder={props.user?.Name} required />
+                                                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 -bg-gray-700 -border-gray-600 -placeholder-gray-400 -text-white -focus:ring-blue-500 -focus:border-blue-500" placeholder={props.user?.Nome} required />
                                             </div>
                                             <div>
                                                 <label className="block mb-2 text-sm font-medium text-gray-900 -text-white">Sobrenome</label>
