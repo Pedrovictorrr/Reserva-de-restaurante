@@ -9,7 +9,7 @@ http://15.229.118.11/
 
 Passo a passo:
 <strong>Link para back-end laravel:</strong><br>
-https://github.com/Pedrovictorrr/Digiliza-api
+https://github.com/Pedrovictorrr/Digiliza-api<br>
 Clonar o repositorio do React Nextjs para sua maquina:
 ```bash
 git clone https://github.com/Pedrovictorrr/Digiliza-Client.git
