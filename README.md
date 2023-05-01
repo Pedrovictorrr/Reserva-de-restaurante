@@ -7,9 +7,13 @@ Eu desenvolvi o projeto de reserva de restaurante que utiliza diferentes tecnolo
 http://15.229.118.11/
 ## Como começar:
 
-Passo a passo:
+Passo a passo:<br>
 <strong>Link para back-end laravel:</strong><br>
-https://github.com/Pedrovictorrr/Digiliza-api<br>
+```bash
+https://github.com/Pedrovictorrr/Digiliza-api
+```
+<br>
+
 Clonar o repositorio do React Nextjs para sua maquina:
 ```bash
 git clone https://github.com/Pedrovictorrr/Digiliza-Client.git
