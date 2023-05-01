@@ -98,7 +98,7 @@ function First_page() {
 
 
   const handleChange = (event: ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>, field: string) => {
-    const value = field === "Observacao" ? Number(event.target.value) : event.target.value;
+    const value = field === "Observacao" ? String(event.target.value) : event.target.value;
     setFormData({ ...formData, [field]: value });
   }
 
@@ -268,7 +268,7 @@ function First_page() {
             <div>
               <label className="block mb-2 text-sm font-medium text-gray-900 xxxtext-white">Observação</label>
               <input value={formData.Observacao}
-                onChange={(event) => handleChange(event, "Observacao")} id="message" name='Observacao' className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 xxxbg-gray-700 xxxborder-gray-600 xxxplaceholder-gray-400 xxxtext-white xxxfocus:ring-blue-500 xxxfocus:border-blue-500" placeholder="Quero mais uma cadeira..." required></input>
+                onChange={(event) => handleChange(event, "Observacao")} type='text' id="message" name='Observacao' className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 xxxbg-gray-700 xxxborder-gray-600 xxxplaceholder-gray-400 xxxtext-white xxxfocus:ring-blue-500 xxxfocus:border-blue-500" placeholder="Quero mais uma cadeira..." required></input>
             </div>
             <div className='mt-5'>
               <button type='submit' className="transition ease-in-out delay-150  hover:-translate-y-1 hover:scale-110 h duration-300 relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-purple-500 to-pink-500 group-hover:from-purple-500 group-hover:to-pink-500 hover:text-white xxxtext-white focus:ring-4 focus:outline-none focus:ring-purple-200 xxxfocus:ring-purple-800">
