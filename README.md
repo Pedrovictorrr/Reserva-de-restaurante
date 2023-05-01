@@ -21,17 +21,17 @@ npm install
 npm run dev
 ```
 <strong>Print do diagrama do banco de dados que elaborei:</strong><br>
-![image](https://user-images.githubusercontent.com/82172897/235407938-9e209c4e-32fe-42aa-bcd9-9f40203f230d.png)
+![image](https://user-images.githubusercontent.com/82172897/235407938-9e209c4e-32fe-42aa-bcd9-9f40203f230d.png)<br>
 <strong>Print da tela de login desenvolvida:</strong><br>
-![image](https://user-images.githubusercontent.com/82172897/235408385-de703b61-324f-4e67-a738-2b6febb5e372.png)
+![image](https://user-images.githubusercontent.com/82172897/235408385-de703b61-324f-4e67-a738-2b6febb5e372.png)<br>
 <strong>Print da tela incial do app, com cadastro de reservas e ultimas registradas:</strong><br>
-![image](https://user-images.githubusercontent.com/82172897/235408313-c2a7d239-cc1a-4d5f-bce2-87713c767050.png)
+![image](https://user-images.githubusercontent.com/82172897/235408313-c2a7d239-cc1a-4d5f-bce2-87713c767050.png)<br>
 <strong>Print da tela de reservas, onde pode visualizar / deletar / editar:</strong><br>
-![image](https://user-images.githubusercontent.com/82172897/235408334-ec9546c5-800d-4d70-bee5-69516b464367.png)
+![image](https://user-images.githubusercontent.com/82172897/235408334-ec9546c5-800d-4d70-bee5-69516b464367.png)<br>
 <strong>Print da tela de visualização:</strong><br>
-![image](https://user-images.githubusercontent.com/82172897/235408350-39f9f732-fa23-41b3-a176-23c5f46b9799.png)
+![image](https://user-images.githubusercontent.com/82172897/235408350-39f9f732-fa23-41b3-a176-23c5f46b9799.png)<br>
 <strong>Print da tela de Edição:</strong><br>
-![image](https://user-images.githubusercontent.com/82172897/235408367-b65b6b8d-3c13-40bd-adcd-9211a62995b7.png)
+![image](https://user-images.githubusercontent.com/82172897/235408367-b65b6b8d-3c13-40bd-adcd-9211a62995b7.png)<br>
 
 
 
