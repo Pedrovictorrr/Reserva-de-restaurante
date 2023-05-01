@@ -7,15 +7,16 @@ Eu desenvolvi o projeto de reserva de restaurante que utiliza diferentes tecnolo
 http://15.229.118.11/
 <br>
 <br>
-<strong>Link para o figma:  </strong>https://www.figma.com/file/qxkpVJY4yt63qeKtOEVjfi/digiliza?type=design&node-id=0-1&t=cFYT2Cla6VbBXia7-0
+<strong>Link para o figma:  </strong>https://www.figma.com/file/qxkpVJY4yt63qeKtOEVjfi/digiliza?type=design&node-id=0-1&t=cFYT2Cla6VbBXia7-0<br>
+<strong>Link para back-end laravel:</strong><br>
+
+https://github.com/Pedrovictorrr/Digiliza-api
+
+<br>
+
 ## Como começar:
 
 Passo a passo:<br>
-<strong>Link para back-end laravel:</strong><br>
-```bash
-https://github.com/Pedrovictorrr/Digiliza-api
-```
-<br>
 
 Clonar o repositorio do React Nextjs para sua maquina:
 ```bash
