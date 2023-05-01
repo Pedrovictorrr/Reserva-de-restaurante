@@ -17,7 +17,7 @@ import DatePicker from "react-datepicker";
 
 interface Reservation {
   id: number;
-  Name: string;
+  Nome: string;
   Sobrenome:string;
   Email: string;
   Observacao: string;
@@ -158,7 +158,7 @@ function Reservas() {
                 {currentItems.map((data) => (
                   <tr key={data.id} className="bg-white border-b xxxbg-gray-900 xxxborder-gray-700">
                     <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap xxxtext-white">
-                      {data.Name}
+                      {data.Nome}
                     </th>
                     <td className="px-6 py-4">
                       {data.Email}

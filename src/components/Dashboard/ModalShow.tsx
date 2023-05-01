@@ -4,7 +4,7 @@ interface Props {
   show: boolean;
   user?: {
     id: number;
-    Name: string;
+    Nome: string;
     Sobrenome:string;
     Email: string;
     Observacao: string;
@@ -37,7 +37,7 @@ function ShowModal(props: Props) {
                     {/*header*/}
                     <div className="flex items-center text-center justify-center p-5 border-b border-solid border-slate-200 rounded-t">
                       <h3 className="text-3xl text-center  font-semibold">
-                        {user?.Name}
+                        {user?.Nome}
                       </h3>
                       <button
                         className="p-1 ml-auto bg-transparent border-0 text-black opacity-5 float-right text-3xl leading-none font-semibold outline-none focus:outline-none"
