@@ -8,7 +8,7 @@ http://15.229.118.11/
 <br>
 <br>
 <strong>Link para o figma:  </strong>https://www.figma.com/file/qxkpVJY4yt63qeKtOEVjfi/digiliza?type=design&node-id=0-1&t=cFYT2Cla6VbBXia7-0<br><br>
-<strong>Link para back-end laravel:</strong> https://github.com/Pedrovictorrr/Digiliza-api
+<strong>Link para back-end Laravel:</strong> https://github.com/Pedrovictorrr/Digiliza-api
 
 <br>
 
