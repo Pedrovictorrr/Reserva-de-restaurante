@@ -15,5 +15,3 @@ pnpm dev
 
 ![image](https://user-images.githubusercontent.com/82172897/235407938-9e209c4e-32fe-42aa-bcd9-9f40203f230d.png)
 
-# Teste_Digiliza
-# Digiliza-api
