@@ -1,10 +1,15 @@
+## Sobre:
 
 Eu desenvolvi o projeto de reserva de restaurante que utiliza diferentes tecnologias para diferentes aspectos da aplicação. Para o back-end, escolhi Laravel e Node.js, que me permitiram gerenciar o funcionamento do servidor e a lógica de negócios da aplicação de maneira eficiente. Já para o front-end, decidi utilizar React com TypeScript, que me proporcionou uma experiência de desenvolvimento mais robusta e escalável. Além disso, optei por usar o framework Tailwind para estilizar a interface do usuário, o que me permitiu ter maior eficiência no processo de desenvolvimento e uma maior consistência visual na aplicação. Em resumo, o projeto que criei demonstra um conjunto habilidoso de escolhas tecnológicas e implementações para criar uma aplicação completa e funcional.
 
+## Acesse:
+<strong>Atualmente consegue acessar a aplicação na url http de um servidor EC2 na AWS:</strong><br>
+http://15.229.118.11/
 ## Como começar:
 
 Passo a passo:
-
+<strong>Link para back-end laravel:</strong><br>
+https://github.com/Pedrovictorrr/Digiliza-api
 Clonar o repositorio do React Nextjs para sua maquina:
 ```bash
 git clone https://github.com/Pedrovictorrr/Digiliza-Client.git
