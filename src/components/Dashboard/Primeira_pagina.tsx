@@ -46,7 +46,7 @@ function First_page() {
 
 
   const fetchLaravelData = useCallback(async () => {
-    const response = await axios.get('http://127.0.0.1:8000/api/getLastReservas', {
+    const response = await axios.get('http://18.230.194.84/api/getLastReservas', {
       headers: {
         Authorization: `Bearer ${cookies.token}`
       }
@@ -75,7 +75,7 @@ function First_page() {
   async function fetchReservas(event: React.ChangeEvent<HTMLInputElement>) {
     try {
       handleDateChange(event);
-      const response = await fetch('http://127.0.0.1:8000/api/showReservasHrs', {
+      const response = await fetch('http://18.230.194.84/api/showReservasHrs', {
         method: 'POST',
         headers: {
           Authorization: `Bearer ${cookies.token}`,

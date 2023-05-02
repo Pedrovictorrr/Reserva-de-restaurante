@@ -104,7 +104,7 @@ function EditModal(props: Props) {
     };
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>, id?: number) => {
         event.preventDefault();
-        axios.post(`http://127.0.0.1:8000/api/reserva/update/${props.user?.id}`, formData, {
+        axios.post(`http://18.230.194.84/api/reserva/update/${props.user?.id}`, formData, {
             headers: {
                 Authorization: `Bearer ${cookies.token}`
             }
