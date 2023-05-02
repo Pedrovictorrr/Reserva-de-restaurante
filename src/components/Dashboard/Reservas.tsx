@@ -17,7 +17,7 @@ import DatePicker from "react-datepicker";
 
 interface Reservation {
   id: number;
-  Nome: string;
+  Name: string;
   Sobrenome:string;
   Email: string;
   Observacao: string;
@@ -31,6 +31,7 @@ interface Reservation {
   created_at: string;
   updated_at: string;
 }
+
 function Reservas() {
   const [currentPage, setCurrentPage] = React.useState(0);
   const [cookies] = useCookies(['token']);
@@ -158,7 +159,7 @@ function Reservas() {
                 {currentItems.map((data) => (
                   <tr key={data.id} className="bg-white border-b xxxbg-gray-900 xxxborder-gray-700">
                     <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap xxxtext-white">
-                      {data.Nome}
+                      {data.Name}
                     </th>
                     <td className="px-6 py-4">
                       {data.Email}

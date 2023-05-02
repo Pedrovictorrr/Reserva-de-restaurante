@@ -11,7 +11,7 @@ interface Props {
     show: boolean;
     user?: {
       id: number;
-      Nome: string;
+      Name: string;
       Sobrenome:string;
       Email: string;
       Observacao: string;
@@ -110,6 +110,7 @@ function EditModal(props: Props) {
             }
         })
             .then(response => {
+                props.handleCloseModal()
                 setFormData({
                     id: '',
                     Nome: '',
@@ -145,7 +146,7 @@ function EditModal(props: Props) {
                                 {/*header*/}
                                 <div className="flex items-center text-center justify-center p-5 border-b border-solid border-slate-200 rounded-t">
                                     <h3 className="text-3xl text-center  font-semibold">
-                                        {props.user?.Nome}
+                                        {props.user?.Name}
                                     </h3>
                                     <button
                                         className="p-1 ml-auto bg-transparent border-0 text-black opacity-5 float-right text-3xl leading-none font-semibold outline-none focus:outline-none"
@@ -166,10 +167,10 @@ function EditModal(props: Props) {
                                                 <select
                                                     id="QTDPessoas"
                                                     value={formData.QTD_Pessoas}
-                                                    onChange={(event) => handleChange(event, "QTDPessoas")}
+                                                    onChange={(event) => handleChange(event, "QTD_Pessoas")}
                                                     name='QTDPessoas'
                                                     className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 -bg-gray-700 -border-gray-600 -placeholder-gray-400 -text-white -focus:ring-blue-500 -focus:border-blue-500">
-                                                    <option selected value={props.user?.QTD_Pessoas}>{props.user?.QTD_Pessoas}</option>
+                                                
                                                     <option value="1">1</option>
                                                     <option value="2">2</option>
                                                     <option value="3">3</option>
@@ -196,7 +197,7 @@ function EditModal(props: Props) {
                                                     type="text"
                                                     id="Nome"
                                                     name='Nome'
-                                                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 -bg-gray-700 -border-gray-600 -placeholder-gray-400 -text-white -focus:ring-blue-500 -focus:border-blue-500" placeholder={props.user?.Nome} required />
+                                                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 -bg-gray-700 -border-gray-600 -placeholder-gray-400 -text-white -focus:ring-blue-500 -focus:border-blue-500" placeholder={props.user?.Name} required />
                                             </div>
                                             <div>
                                                 <label className="block mb-2 text-sm font-medium text-gray-900 -text-white">Sobrenome</label>
